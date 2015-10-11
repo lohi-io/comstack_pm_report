@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * @file
+ * comstack_pm_report.module
+ */
+
+/**
+ * Implements hook_flag_default_flags().
+ */
+function comstack_pm_report_flag_default_flags() {
+  $flags = array();
+
+  // Exported flag: "Report a conversation".
+  $flags['comstack_pm_report'] = array(
+    'entity_type' => 'comstack_conversation',
+    'title' => 'Report a conversation',
+    'global' => 0,
+    'types' => array(
+      0 => 'comstack_conversation',
+    ),
+    'flag_short' => 'Report this conversation',
+    'flag_long' => '',
+    'flag_message' => '',
+    'unflag_short' => 'Remove conversation report',
+    'unflag_long' => '',
+    'unflag_message' => '',
+    'unflag_denied_text' => '',
+    'link_type' => 'toggle',
+    'weight' => 0,
+    'show_in_links' => array(
+      'full' => 0,
+      'diff_standard' => 0,
+      'token' => 0,
+    ),
+    'show_as_field' => 0,
+    'show_on_form' => 0,
+    'access_author' => '',
+    'show_contextual_link' => FALSE,
+    'api_version' => 3,
+  );
+
+  return $flags;
+}

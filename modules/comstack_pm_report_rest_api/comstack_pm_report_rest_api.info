@@ -1,0 +1,10 @@
+name = Communications Stack - Private Messaging Report REST API
+description = Allow people to report conversations via a REST API endpoint.
+core = 7.x
+package = Communications Stack
+php = 5.3
+
+dependencies[] = comstack_pm
+dependencies[] = flag
+dependencies[] = comstack_pm_report
+dependencies[] = restful

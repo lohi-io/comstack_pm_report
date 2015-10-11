@@ -1,0 +1,8 @@
+name = Communications Stack Private Messaging - Reporting
+description = Provides a way for users to report bad messages.
+core = 7.x
+package = Communications Stack
+php = 5.3
+
+dependencies[] = comstack_pm
+dependencies[] = flag
