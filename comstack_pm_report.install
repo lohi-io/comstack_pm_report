@@ -76,7 +76,7 @@ function comstack_pm_report_install_entity_fields() {
     'field_name' => 'field_cs_pm_report_conversation',
     'type' => 'entityreference',
     'module' => 'entityreference',
-    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    'cardinality' => 1,
     'entity_types' => array(),
     'settings' => array(
       'handler' => 'base',
