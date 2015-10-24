@@ -3,7 +3,7 @@
 $plugin = array(
   'label' => t('Report a conversation'),
   'resource' => 'cs-pm-report',
-  'name' => 'flagging__comstack_pm_report__1_0',
+  'name' => 'comstack_pm_report__comstack_pm_report__1_0',
   'entity_type' => 'comstack_pm_report',
   'bundle' => 'comstack_pm_report',
   'description' => t('Report a conversation.'),
