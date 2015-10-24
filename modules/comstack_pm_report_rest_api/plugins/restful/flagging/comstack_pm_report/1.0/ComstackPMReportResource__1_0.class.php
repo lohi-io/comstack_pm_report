@@ -29,7 +29,7 @@ class ComstackPMReportResource__1_0 extends \ComstackRestfulEntityBase {
     $account = $this->getAccount();
 
     // First check access to report a conversation.
-    if (!user_access('flag comstack_pm_report', $account)) {
+    if (!user_access('create comstack_pm_report entries', $account)) {
       $this->setHttpHeaders('Status', 403);
       throw new RestfulForbiddenException(t('You do not have access to report conversations.'));
     }
@@ -56,17 +56,16 @@ class ComstackPMReportResource__1_0 extends \ComstackRestfulEntityBase {
       throw new RestfulNotFoundException(t("Can't seem to find the conversation that you're trying to report."));
     }
 
-    // Do the flagging.
-    $flag = flag_get_flag($this->bundle);
-    $flagging = entity_create('flagging', array(
-      'flag_name' => $flag->name,
-      'fid' => $flag->fid,
-      'entity_type' => 'comstack_conversation',
-      'entity_id' => $conversation_id,
+    // Create the report
+    $report = entity_create('comstack_pm_report', array(
+      'uid' => $account->uid,
+      'created' => REQUEST_TIME,
+      'updated' => REQUEST_TIME,
     ));
 
-    // Set the flagging entity values.
-    $wrapper = entity_metadata_wrapper('flagging', $flagging);
+    // Set the report entity values.
+    $wrapper = entity_metadata_wrapper('comstack_pm_report', $report);
+    $wrapper->field_cs_pm_report_conversation->set($conversation_id);
     $wrapper->field_cs_pm_report_reason->set($request_data['reasons']);
 
     if (!empty($request_data['other_reason'])) {
@@ -77,8 +76,8 @@ class ComstackPMReportResource__1_0 extends \ComstackRestfulEntityBase {
       $wrapper->field_cs_pm_messages->set($request_data['posts']);
     }
 
-    // Flag it.
-    $response = $flag->flag('flag', $conversation_id, $account, FALSE, $flagging);
+    // Save the report.
+    $response = entity_save('comstack_pm_report', $report);
 
     // Set the response.
     if ($response) {

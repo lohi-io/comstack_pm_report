@@ -5,4 +5,4 @@ package = Communications Stack
 php = 5.3
 
 dependencies[] = comstack_pm
-dependencies[] = flag
+dependencies[] = entity

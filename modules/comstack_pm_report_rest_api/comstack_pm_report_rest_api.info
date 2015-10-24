@@ -5,6 +5,6 @@ package = Communications Stack
 php = 5.3
 
 dependencies[] = comstack_pm
-dependencies[] = flag
+dependencies[] = entity
 dependencies[] = comstack_pm_report
 dependencies[] = restful
