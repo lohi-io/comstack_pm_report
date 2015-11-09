@@ -65,7 +65,7 @@ class ComstackPMReportResource__1_0 extends \ComstackRestfulEntityBase {
 
     // Set the report entity values.
     $wrapper = entity_metadata_wrapper('comstack_pm_report', $report);
-    $wrapper->field_cs_pm_report_conversation->set(array($conversation_id));
+    $wrapper->field_cs_pm_report_conversation->set($conversation_id);
     $wrapper->field_cs_pm_report_reason->set($request_data['reasons']);
 
     if (!empty($request_data['other_reason'])) {

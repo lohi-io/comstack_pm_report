@@ -59,6 +59,14 @@ function comstack_pm_report_schema() {
         'not null' => TRUE,
         'default' => 0,
       ),
+      'dismissed' => array(
+        'description' => 'Whether or not the report has been dismissed.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+        'boolean' => TRUE,
+      ),
     ),
     'indexes' => array(),
     'foreign keys' => array(),
@@ -357,9 +365,21 @@ function comstack_pm_report_install_entity_fields() {
 /* Update hooks. */
 
 /**
- * Install the new entity schema.
+ * Install the new report entity schema.
  */
 function comstack_pm_report_update_7100() {
-  drupal_install_schema('comstack_pm_report');
-  comstack_pm_report_install_entity_fields();
+  if (!db_table_exists('comstack_pm_report')) {
+    drupal_install_schema('comstack_pm_report');
+    comstack_pm_report_install_entity_fields();
+  }
+}
+
+/**
+ * Add the dismissed field to the report entity.
+ */
+function comstack_pm_report_update_7101() {
+  if (!db_field_exists('comstack_pm_report', 'dismissed')) {
+    $schema = drupal_get_schema('comstack_pm_report');
+    db_add_field('comstack_pm_report', 'dismissed', $schema['fields']['dismissed']);
+  }
 }

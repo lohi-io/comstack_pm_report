@@ -44,7 +44,7 @@ function comstack_pm_report_entity_property_info_alter(&$info) {
     'schema field' => 'cspmr_id',
   );
   $report_properties['uid'] = array(
-    'label' => t('Author'),
+    'label' => t('Reporter'),
     'type' => 'user',
     'description' => t('The creator of the report.'),
     'setter callback' => 'entity_property_verbatim_set',
@@ -53,7 +53,7 @@ function comstack_pm_report_entity_property_info_alter(&$info) {
     'schema field' => 'uid',
   );
   $report_properties['created'] = array(
-    'label' => t('Conversation started'),
+    'label' => t('Report created'),
     'type' => 'date',
     'description' => t('The date the report was created.'),
     'setter callback' => 'entity_property_verbatim_set',
@@ -61,12 +61,20 @@ function comstack_pm_report_entity_property_info_alter(&$info) {
     'schema field' => 'created',
   );
   $report_properties['updated'] = array(
-    'label' => t('Conversation last updated'),
+    'label' => t('Report updated'),
     'type' => 'date',
     'description' => t('The date the report was most recently updated.'),
     'setter callback' => 'entity_property_verbatim_set',
     'setter permission' => 'administer comstack content',
     'schema field' => 'updated',
+  );
+  $report_properties['dismissed'] = array(
+    'label' => t('Dismissed'),
+    'type' => 'boolean',
+    'description' => t('Whether or not the report has been dismissed.'),
+    'setter callback' => 'entity_property_verbatim_set',
+    'setter permission' => 'administer comstack content',
+    'schema field' => 'dismissed',
   );
 }
 
