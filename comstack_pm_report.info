@@ -6,3 +6,6 @@ php = 5.3
 
 dependencies[] = comstack_pm
 dependencies[] = entity
+
+files[] = views/handlers/comstack_pm_report_handler_field_dismiss_report.inc
+files[] = views/handlers/comstack_pm_report_handler_field_view_conversation.inc

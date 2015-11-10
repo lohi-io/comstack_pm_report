@@ -16,6 +16,8 @@ function comstack_pm_report_install() {
  * Implements hook_uninstall().
  */
 function comstack_pm_report_uninstall() {
+  variable_del('comstack_pm_report__view_conversation_name');
+
   // Remove fields from the comstack_pm_report entity.
   $fields = array('field_cs_pm_report_conversation', 'field_cs_pm_report_additional', 'field_cs_pm_report_reason', 'field_cs_pm_messages');
   foreach ($fields as $field) {
