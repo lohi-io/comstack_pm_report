@@ -29,7 +29,7 @@ function comstack_pm_report_permission() {
 /**
  * Implements hook_menu().
  */
-function comstack_pm_menu() {
+function comstack_pm_report_menu() {
   $items = array();
 
   $items['admin/ajax/cs-pm-r/dismiss/%comstack_pm_report/%/%ctools_js'] = array(
@@ -130,7 +130,7 @@ function comstack_pm_report_view_conversation($report, $token, $js = NULL) {
     ctools_include('ajax');
     ctools_include('modal');
 
-    print ctools_modal_render(harmony_moderation_reports_title($post), $output);
+    print ctools_modal_render(t('View conversation'), $output);
 
     global $devel_shutdown;
     $devel_shutdown = FALSE;

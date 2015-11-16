@@ -36,6 +36,7 @@ class ComstackPMReportResource__1_0 extends \ComstackRestfulEntityBase {
 
     // Validate that all of the required data is present.
     $request_data = $this->getRequestData();
+
     if (
       empty($request_data['conversation_id']) ||
       empty($request_data['reasons']) ||
@@ -45,7 +46,8 @@ class ComstackPMReportResource__1_0 extends \ComstackRestfulEntityBase {
       !empty($request_data['posts']) && !is_array($request_data['posts'])
     ) {
       $this->setHttpHeaders('Status', 400);
-      throw new \RestfulBadRequestException(format_string("You're either missing a required value or something that you're passing in is incorrect. @data", array('@data' => print_r($request_data, TRUE))));
+      watchdog('comstack_pm_report', 'Attempted to create a report with invalid or missing values. @values', array('@data' => print_r($request_data, TRUE)), WATCHDOG_ERROR);
+      throw new \RestfulBadRequestException(t("You're either missing a required value or something that you're passing in is incorrect."));
     }
 
     // Try and load up the conversation.

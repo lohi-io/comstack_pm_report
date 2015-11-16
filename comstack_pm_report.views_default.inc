@@ -37,8 +37,10 @@ function comstack_pm_report_views_default_views() {
     'name' => 'name',
     'field_cs_pm_report_additional' => 'field_cs_pm_report_additional',
     'field_cs_pm_report_reason' => 'field_cs_pm_report_reason',
+    'nothing_1' => 'nothing_1',
     'cs_pm_historical_participants' => 'cs_pm_historical_participants',
-    'dismiss_report' => 'dismiss_report',
+    'view_conversation' => 'view_conversation',
+    'dismiss_report' => 'view_conversation',
   );
   $handler->display->display_options['style_options']['default'] = 'created';
   $handler->display->display_options['style_options']['info'] = array(
@@ -68,10 +70,20 @@ function comstack_pm_report_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
+    'nothing_1' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'cs_pm_historical_participants' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
+    ),
+    'view_conversation' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 1,
     ),
     'dismiss_report' => array(
       'align' => '',
@@ -116,16 +128,23 @@ function comstack_pm_report_views_default_views() {
   $handler->display->display_options['fields']['field_cs_pm_report_additional']['label'] = '';
   $handler->display->display_options['fields']['field_cs_pm_report_additional']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_cs_pm_report_additional']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_cs_pm_report_additional']['alter']['text'] = '<br>[field_cs_pm_report_additional]';
+  $handler->display->display_options['fields']['field_cs_pm_report_additional']['alter']['text'] = '<br><strong>Additional information:</strong><br>[field_cs_pm_report_additional]';
   $handler->display->display_options['fields']['field_cs_pm_report_additional']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_cs_pm_report_additional']['hide_empty'] = TRUE;
   /* Field: Comstack PM Report: Reason */
   $handler->display->display_options['fields']['field_cs_pm_report_reason']['id'] = 'field_cs_pm_report_reason';
   $handler->display->display_options['fields']['field_cs_pm_report_reason']['table'] = 'field_data_field_cs_pm_report_reason';
   $handler->display->display_options['fields']['field_cs_pm_report_reason']['field'] = 'field_cs_pm_report_reason';
-  $handler->display->display_options['fields']['field_cs_pm_report_reason']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_cs_pm_report_reason']['alter']['text'] = '[field_cs_pm_report_reason][field_cs_pm_report_additional]';
+  $handler->display->display_options['fields']['field_cs_pm_report_reason']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_cs_pm_report_reason']['element_wrapper_type'] = 'div';
   $handler->display->display_options['fields']['field_cs_pm_report_reason']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_cs_pm_report_reason']['multi_type'] = 'ul';
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
+  $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing_1']['label'] = 'Reasons';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '[field_cs_pm_report_reason][field_cs_pm_report_additional]';
   /* Field: Comstack Conversation: Historical participants */
   $handler->display->display_options['fields']['cs_pm_historical_participants']['id'] = 'cs_pm_historical_participants';
   $handler->display->display_options['fields']['cs_pm_historical_participants']['table'] = 'field_data_cs_pm_historical_participants';
@@ -141,7 +160,6 @@ function comstack_pm_report_views_default_views() {
   $handler->display->display_options['fields']['view_conversation']['table'] = 'comstack_pm_report';
   $handler->display->display_options['fields']['view_conversation']['field'] = 'view_conversation';
   $handler->display->display_options['fields']['view_conversation']['label'] = '';
-  $handler->display->display_options['fields']['view_conversation']['exclude'] = TRUE;
   $handler->display->display_options['fields']['view_conversation']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['view_conversation']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['view_conversation']['element_default_classes'] = FALSE;
@@ -151,20 +169,9 @@ function comstack_pm_report_views_default_views() {
   $handler->display->display_options['fields']['dismiss_report']['table'] = 'comstack_pm_report';
   $handler->display->display_options['fields']['dismiss_report']['field'] = 'dismiss_report';
   $handler->display->display_options['fields']['dismiss_report']['label'] = '';
-  $handler->display->display_options['fields']['dismiss_report']['exclude'] = TRUE;
   $handler->display->display_options['fields']['dismiss_report']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['dismiss_report']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['dismiss_report']['element_default_classes'] = FALSE;
-  /* Field: Global: Custom text */
-  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['table'] = 'views';
-  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '[view_conversation]
-  [dismiss_report]';
-  $handler->display->display_options['fields']['nothing']['alter']['trim_whitespace'] = TRUE;
-  $handler->display->display_options['fields']['nothing']['alter']['nl2br'] = TRUE;
-  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Filter criterion: Comstack PM Report: Dismissed */
   $handler->display->display_options['filters']['dismissed']['id'] = 'dismissed';
   $handler->display->display_options['filters']['dismissed']['table'] = 'comstack_pm_report';
