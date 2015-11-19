@@ -17,9 +17,31 @@ function comstack_pm_report_permission() {
       'description' => t('Allows users to view conversation reports and the contents of the reported conversation.'),
       'restrict access' => TRUE,
     ),
+    'view own comstack_pm_report entries' => array(
+      'title' => t('View own reports'),
+      'description' => t('Allows users to view their own reports.'),
+    ),
     'create comstack_pm_report entries' => array(
       'title' => t('Create conversation reports'),
       'description' => t('Create new reports about conversations citing reasons why.'),
+    ),
+    'update own comstack_pm_report entries' => array(
+      'title' => t('Update own reports'),
+      'description' => t('Allows a user to update and make changes to their own report entries.'),
+    ),
+    'update comstack_pm_report entries' => array(
+      'title' => t('Update any report'),
+      'description' => t('Allows a user to update any report entry.'),
+      'restrict access' => TRUE,
+    ),
+    'delete own comstack_pm_report entries' => array(
+      'title' => t('Delete own reports'),
+      'description' => t('Allows users to delete their own reports.'),
+    ),
+    'delete comstack_pm_report entries' => array(
+      'title' => t('Delete any report'),
+      'description' => t('Allows users to delete any report.'),
+      'restrict access' => TRUE,
     ),
   );
 

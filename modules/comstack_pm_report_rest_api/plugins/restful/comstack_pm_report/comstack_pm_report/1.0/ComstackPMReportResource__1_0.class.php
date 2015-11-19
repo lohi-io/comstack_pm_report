@@ -11,11 +11,106 @@ class ComstackPMReportResource__1_0 extends \ComstackRestfulEntityBase {
    */
   public static function controllersInfo() {
     return array(
-      // Listings.
       '' => array(
+        // GET returns a list of reports.
+        \RestfulInterface::GET => 'getList',
+        \RestfulInterface::HEAD => 'getList',
+        // Create a new report.
         \RestfulInterface::POST => 'reportConversation',
       ),
+      '^.*$' => array(
+        \RestfulInterface::GET => 'viewEntities',
+        \RestfulInterface::HEAD => 'viewEntities',
+        \RestfulInterface::PUT => 'putEntity',
+        \RestfulInterface::PATCH => 'patchEntity',
+        \RestfulInterface::DELETE => 'deleteEntity',
+      ),
     );
+  }
+
+  /**
+   * Overrides \ComstackRestfulEntityBase::getList().
+   *
+   * Before we offer up a listing first check that the user can view reports
+   * in some way.
+   */
+  public function getList() {
+    $account = $this->getAccount();
+
+    if (!user_access('view comstack_pm_report entries', $account) && !user_access('view own comstack_pm_report entries', $account)) {
+      $this->setHttpHeaders('Status', 403);
+      throw new RestfulForbiddenException(t('You do not have access to view reports.'));
+    }
+
+    return parent::getList();
+  }
+
+  /**
+   * Overrides \RestfulEntityBase::publicFieldsInfo().
+   */
+  public function publicFieldsInfo() {
+    $public_fields = parent::publicFieldsInfo();
+
+    // Reorder things.
+    $id_field = $public_fields['id'];
+    unset($public_fields['id']);
+
+    $public_fields['type'] = array(
+      'callback' => array('\RestfulManager::echoMessage', array('comstack_pm_report')),
+    );
+
+    $public_fields['id'] = $id_field;
+
+    $public_fields['reporter'] = array(
+      'property' => 'uid',
+      'resource' => array(
+        'user' => array(
+          'name' => 'cs/users',
+          'full_view' => TRUE,
+        ),
+      ),
+    );
+
+    $public_fields['conversation'] = array(
+      'property' => 'field_cs_pm_report_conversation',
+      'resource' => array(
+        'cs_pm' => array(
+          'name' => 'cs-pm/conversations',
+          'full_view' => TRUE,
+        ),
+      ),
+    );
+
+    $public_fields['reasons'] = array(
+      'property' => 'field_cs_pm_report_reason',
+    );
+
+    $public_fields['additional_information'] = array(
+      'property' => 'field_cs_pm_report_additional',
+    );
+
+    $public_fields['created'] = array(
+      'property' => 'created',
+      'process_callbacks' => array(
+        'date_iso8601',
+      ),
+    );
+
+    $public_fields['updated'] = array(
+      'property' => 'updated',
+      'process_callbacks' => array(
+        'date_iso8601',
+      ),
+    );
+
+    $public_fields['dismissed'] = array(
+      'property' => 'dismissed',
+    );
+
+    unset($public_fields['label']);
+    unset($public_fields['self']);
+
+    return $public_fields;
   }
 
   /**

@@ -105,18 +105,25 @@ function comstack_pm_report_load_multiple(array $report_ids = array(), $uid = NU
 
 /**
  * Access callback.
+ *
+ * @throws Exception
  */
 function comstack_pm_report_entity_access($op, $entity, $account, $entity_type) {
   switch ($op) {
     case 'view':
-      return user_access('view comstack_pm_report entries', $account);
+      return user_access('view comstack_pm_report entries', $account) || $entity->uid == $account->uid && user_access('view own comstack_pm_report entries', $account);
       break;
     case 'create':
       return user_access('create comstack_pm_report entries', $account);
       break;
+    case 'update':
+      return user_access('update comstack_pm_report entries', $account) || $entity->uid == $account->uid && user_access('update own comstack_pm_report entries', $account);
+      break;
+    case 'delete':
+      return user_access('delete comstack_pm_report entries', $account) || $entity->uid == $account->uid && user_access('delete own comstack_pm_report entries', $account);
+      break;
     default:
-      return TRUE;
+      throw new Exception(t("An invalid operation string has been passed to the Entity access check function for Comstack PM Reports."));
       break;
   }
-  // Redundant breaks yo.
 }
