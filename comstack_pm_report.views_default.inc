@@ -15,7 +15,7 @@ function comstack_pm_report_views_default_views() {
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'comstack_pm_report';
-  $view->human_name = 'Reported conversations';
+  $view->human_name = 'Comstack Private Messaging - Reported conversations';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -145,16 +145,17 @@ function comstack_pm_report_views_default_views() {
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['label'] = 'Reasons';
   $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '[field_cs_pm_report_reason][field_cs_pm_report_additional]';
-  /* Field: Comstack Conversation: Historical participants */
-  $handler->display->display_options['fields']['cs_pm_historical_participants']['id'] = 'cs_pm_historical_participants';
-  $handler->display->display_options['fields']['cs_pm_historical_participants']['table'] = 'field_data_cs_pm_historical_participants';
-  $handler->display->display_options['fields']['cs_pm_historical_participants']['field'] = 'cs_pm_historical_participants';
-  $handler->display->display_options['fields']['cs_pm_historical_participants']['relationship'] = 'field_cs_pm_report_conversation_target_id';
-  $handler->display->display_options['fields']['cs_pm_historical_participants']['label'] = 'Conversation historical participants';
-  $handler->display->display_options['fields']['cs_pm_historical_participants']['settings'] = array(
-    'link' => 1,
-  );
-  $handler->display->display_options['fields']['cs_pm_historical_participants']['delta_offset'] = '0';
+  /* Field: Comstack Conversation: Conversation participants */
+  $handler->display->display_options['fields']['participants']['id'] = 'participants';
+  $handler->display->display_options['fields']['participants']['table'] = 'comstack_conversation';
+  $handler->display->display_options['fields']['participants']['field'] = 'participants';
+  $handler->display->display_options['fields']['participants']['relationship'] = 'field_cs_pm_report_conversation_target_id';
+  /* Field: Comstack Conversation: Conversation historical participants */
+  $handler->display->display_options['fields']['historical_participants']['id'] = 'historical_participants';
+  $handler->display->display_options['fields']['historical_participants']['table'] = 'comstack_conversation';
+  $handler->display->display_options['fields']['historical_participants']['field'] = 'historical_participants';
+  $handler->display->display_options['fields']['historical_participants']['relationship'] = 'field_cs_pm_report_conversation_target_id';
+  $handler->display->display_options['fields']['historical_participants']['label'] = 'Historical participants';
   /* Field: Comstack PM Report: Link to, or AJAX view the conversation */
   $handler->display->display_options['fields']['view_conversation']['id'] = 'view_conversation';
   $handler->display->display_options['fields']['view_conversation']['table'] = 'comstack_pm_report';
