@@ -163,3 +163,72 @@ function comstack_pm_report_view_conversation($report, $token, $js = NULL) {
     return $output;
   }
 }
+
+/**
+ * Implements hook_entity_delete().
+ *
+ * When a message or conversation is deleted, dismiss any reports against it.
+ *
+ * @param $entity
+ *  The entity object.
+ * @param $entity_type
+ *  The type of entity being deleted (i.e. node, user, comment).
+ */
+function comstack_pm_report_entity_delete($entity, $entity_type) {
+  /**
+   * Only react to the entities relevant to us.
+   */
+  if ($entity_type != 'comstack_conversation' && $entity_type != 'message') {
+    return;
+  }
+
+  list($entity_id, , $bundle) = entity_extract_ids($entity_type, $entity);
+
+  /**
+   * Only private message type messages
+   */
+  if ($bundle != 'cs_pm') {
+    return;
+  }
+
+  $field = $entity_type == 'comstack_conversation' ? 'field_cs_pm_report_conversation' : 'field_cs_pm_messages';
+
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'comstack_pm_report')
+    ->fieldCondition($field, 'target_id', $entity_id);
+  $report_results = $query->execute();
+  $ids = isset($report_results['comstack_pm_report']) ? array_keys($report_results['comstack_pm_report']) : array();
+
+  /**
+   * Dismiss reports if any were found.
+   */
+  if (!empty($ids)) {
+    db_update('comstack_pm_report')
+      ->fields(array('dismissed' => 1))
+      ->condition('cspmr_id', $ids)
+      ->execute();
+  }
+}
+
+/**
+ * Implements hook_comstack_pm_conversations_permanently_deleted().
+ */
+function comstack_pm_report_comstack_pm_conversations_permanently_deleted($conversation_ids) {
+  watchdog('debug', 'marked deleted');
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'comstack_pm_report')
+    ->fieldCondition('field_cs_pm_report_conversation', 'target_id', $conversation_ids);
+  $report_results = $query->execute();
+  $ids = isset($report_results['comstack_pm_report']) ? array_keys($report_results['comstack_pm_report']) : array();
+
+  /**
+   * Dismiss reports if any were found.
+   */
+  if (!empty($ids)) {
+    watchdog('debug', 'remove reports');
+    db_update('comstack_pm_report')
+      ->fields(array('dismissed' => 1))
+      ->condition('cspmr_id', $ids)
+      ->execute();
+  }
+}
