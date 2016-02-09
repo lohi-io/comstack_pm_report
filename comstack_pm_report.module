@@ -214,7 +214,6 @@ function comstack_pm_report_entity_delete($entity, $entity_type) {
  * Implements hook_comstack_pm_conversations_permanently_deleted().
  */
 function comstack_pm_report_comstack_pm_conversations_permanently_deleted($conversation_ids) {
-  watchdog('debug', 'marked deleted');
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'comstack_pm_report')
     ->fieldCondition('field_cs_pm_report_conversation', 'target_id', $conversation_ids);
@@ -225,7 +224,6 @@ function comstack_pm_report_comstack_pm_conversations_permanently_deleted($conve
    * Dismiss reports if any were found.
    */
   if (!empty($ids)) {
-    watchdog('debug', 'remove reports');
     db_update('comstack_pm_report')
       ->fields(array('dismissed' => 1))
       ->condition('cspmr_id', $ids)
